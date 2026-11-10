@@ -1,0 +1,15 @@
+/* শুধু অ্যাপের খোলস (ছোট ফাইলগুলো) ফোনে রাখে — পড়ার কন্টেন্ট বা ব্যক্তিগত তথ্য কিছুই এখানে জমা হয় না */
+var C = 'gzt-shell-v3';
+var FILES = ['./', './index.html', './admin.html', './config.js', './manifest.json', './admin.webmanifest', './icon-192.png', './icon-512.png', './admin-192.png'];
+self.addEventListener('install', function(e) { e.waitUntil(caches.open(C).then(function(c) { return c.addAll(FILES); })); self.skipWaiting(); });
+self.addEventListener('activate', function(e) {
+  e.waitUntil(caches.keys().then(function(ks) { return Promise.all(ks.filter(function(k) { return k !== C; }).map(function(k) { return caches.delete(k); })); }));
+  self.clients.claim();
+});
+self.addEventListener('fetch', function(e) {
+  var u = new URL(e.request.url);
+  if (u.origin !== location.origin || e.request.method !== 'GET') return;   // Apps Script-এর কিছুই ধরা হয় না
+  e.respondWith(fetch(e.request).then(function(r) {
+    var cp = r.clone(); caches.open(C).then(function(c) { c.put(e.request, cp); }); return r;
+  }).catch(function() { return caches.match(e.request).then(function(m) { return m || caches.match('./index.html'); }); }));
+});

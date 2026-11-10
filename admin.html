@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GZT Admin">
+<meta name="referrer" content="no-referrer">
+<title>GZT Admin</title>
+<link rel="manifest" href="admin.webmanifest">
+<link rel="icon" href="admin-192.png">
+<link rel="apple-touch-icon" href="admin-192.png">
+<style>
+  html,body{margin:0;height:100%;background:#0f172a;overflow:hidden}
+  iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:#fff}
+  #splash{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#fff;font:600 16px 'Hind Siliguri',system-ui,sans-serif;background:linear-gradient(135deg,#0b1224,#1d4ed8);transition:opacity .4s}
+  #splash img{width:84px;height:84px;border-radius:22px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+  #splash.hide{opacity:0;pointer-events:none}
+  #off{display:none;position:fixed;inset:0;align-items:center;justify-content:center;flex-direction:column;gap:12px;background:#0b1224;color:#fff;font:600 16px 'Hind Siliguri',system-ui,sans-serif;text-align:center;padding:24px}
+  #off button{border:0;border-radius:12px;padding:12px 20px;font:700 15px inherit;background:#fbbf24;color:#1a1205}
+</style>
+<script src="config.js"></script>
+</head>
+<body>
+<div id="splash"><img src="admin-192.png" alt=""><div>লোড হচ্ছে…</div></div>
+<div id="off"><div style="font-size:42px">📶</div><div>ইন্টারনেট সংযোগ নেই</div><button onclick="location.reload()">আবার চেষ্টা করুন</button></div>
+<script>
+  (function() {
+    if (!navigator.onLine) { document.getElementById('off').style.display = 'flex'; document.getElementById('splash').classList.add('hide'); }
+    var f = document.createElement('iframe');
+    f.src = window.GZ_APP_URL + '?admin=1';
+    f.allow = 'clipboard-write; fullscreen; encrypted-media; picture-in-picture';
+    f.setAttribute('allowfullscreen', '');
+    f.onload = function() { document.getElementById('splash').classList.add('hide'); };
+    document.body.appendChild(f);
+    setTimeout(function() { document.getElementById('splash').classList.add('hide'); }, 12000);
+    window.addEventListener('online', function() { document.getElementById('off').style.display = 'none'; });
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function() {});
+  })();
+</script>
+</body>
+</html>
