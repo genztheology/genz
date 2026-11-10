@@ -9,6 +9,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Gen Z Theology">
 <meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-src https://script.google.com https://*.googleusercontent.com; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <title>Gen Z Theology</title>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png">
@@ -29,12 +30,17 @@
 <div id="off"><div style="font-size:42px">📶</div><div>ইন্টারনেট সংযোগ নেই</div><button onclick="location.reload()">আবার চেষ্টা করুন</button></div>
 <script>
   (function() {
+    /* নিরাপত্তা: অন্য কোনো সাইট এই পেজকে নিজের ভেতরে বসিয়ে (ফ্রেম করে) ধোঁকা দিতে পারবে না */
+    if (window.top !== window.self) { try { window.top.location = window.location.href; } catch (e) {} document.documentElement.innerHTML = ''; return; }
+    /* config.js-এ শুধু আসল Apps Script লিংক চলবে — অন্য কোনো সাইটের লিংক বসালে পেজ খুলবেই না */
+    var APP = String(window.GZ_APP_URL || '');
+    if (!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]{20,}\/exec$/.test(APP)) { document.getElementById('splash').innerHTML = '<div>⚠️ কনফিগারেশনে সমস্যা — অ্যাডমিনকে জানান</div>'; return; }
     if (!navigator.onLine) { document.getElementById('off').style.display = 'flex'; document.getElementById('splash').classList.add('hide'); }
     var f = document.createElement('iframe');
     var ref = (location.search.match(/[?&]ref=([A-Za-z0-9]{4,12})/) || [])[1];   /* রেফার লিংক পোর্টালে পৌঁছে দেয় */
-    f.src = window.GZ_APP_URL + (ref ? '?ref=' + ref : '');
+    f.src = APP + (ref ? '?ref=' + ref : '');
     f.allow = 'clipboard-write; fullscreen; encrypted-media; picture-in-picture';
-    f.setAttribute('allowfullscreen', '');
+    f.setAttribute('allowfullscreen', ''); f.referrerPolicy = 'no-referrer';
     f.onload = function() { document.getElementById('splash').classList.add('hide'); };
     document.body.appendChild(f);
     setTimeout(function() { document.getElementById('splash').classList.add('hide'); }, 12000);
