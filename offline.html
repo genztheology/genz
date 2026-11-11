@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1224" id="tc">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'">
+<title>অফলাইন পাঠ — Gen Z Theology</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Noto+Serif+Bengali:wght@500;700&family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Plus+Jakarta+Sans:wght@500;700&display=swap" media="print" onload="this.media='all'">
+<link rel="icon" href="icon-192.png">
+<style>
+  :root { --bg:#0b1224; --card:#131c33; --ink:#eef2ff; --mut:#93a0c0; --line:#243052; --gold:#fbbf24; --brand:#3b82f6; --ok:#34d399; --bad:#f87171; --fs:1.06rem; --lh:1.9; }
+  html[data-t="light"] { --bg:#f5f7fb; --card:#ffffff; --ink:#0f172a; --mut:#5b6b88; --line:#e2e8f0; --gold:#b45309; --brand:#1d4ed8; --ok:#059669; --bad:#dc2626; }
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+  html, body { background:var(--bg); color:var(--ink); min-height:100%; }
+  body { font-family:'Plus Jakarta Sans','Noto Sans Bengali','Hind Siliguri','Kalpurush','Nirmala UI',system-ui,sans-serif;font-kerning:normal;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased; padding-bottom:calc(30px + env(safe-area-inset-bottom)); }
+  button { font:inherit; cursor:pointer; }
+  .top { position:sticky; top:0; z-index:10; display:flex; align-items:center; gap:10px; padding:calc(10px + env(safe-area-inset-top)) 14px 10px; background:color-mix(in srgb,var(--bg) 88%,transparent); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
+  .top h1 { font-size:1rem; font-weight:800; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .pill:empty { display:none; }
+  .pill { font-size:.72rem; font-weight:700; padding:4px 10px; border-radius:99px; background:color-mix(in srgb,var(--gold) 18%,transparent); color:var(--gold); white-space:nowrap; }
+  .ib { border:1px solid var(--line); background:var(--card); color:var(--ink); border-radius:12px; min-width:40px; height:40px; padding:0 10px; font-weight:700; }
+  main { max-width:760px; margin:0 auto; padding:16px 14px; }
+  .box { background:var(--card); border:1px solid var(--line); border-radius:20px; padding:22px 18px; text-align:center; }
+  .box h2 { font-size:1.15rem; margin:8px 0; } .box p { color:var(--mut); line-height:1.7; font-size:.92rem; margin-bottom:12px; }
+  .emo { font-size:2.6rem; }
+  .btn { border:0; border-radius:14px; padding:13px 20px; font-weight:800; background:var(--gold); color:#1a1205; width:100%; margin-top:8px; }
+  .btn.g { background:transparent; color:var(--ink); border:1px solid var(--line); }
+  .pin { display:flex; gap:8px; justify-content:center; margin:14px 0 6px; }
+  .pin input { width:46px; height:54px; text-align:center; font-size:1.4rem; font-weight:800; border-radius:14px; border:2px solid var(--line); background:var(--bg); color:var(--ink); outline:0; }
+  .pin input:focus { border-color:var(--gold); }
+  .err { color:var(--bad); font-weight:700; font-size:.88rem; min-height:22px; }
+  .lec { display:flex; align-items:center; gap:12px; padding:14px; margin-bottom:10px; background:var(--card); border:1px solid var(--line); border-radius:16px; text-align:left; width:100%; color:var(--ink); }
+  .lec b { display:block; font-size:.98rem; line-height:1.45; } .lec small { color:var(--mut); font-size:.78rem; }
+  .lec .go { margin-left:auto; color:var(--gold); font-size:1.3rem; }
+  .sub { color:var(--mut); font-size:.82rem; margin:6px 2px 14px; line-height:1.6; }
+  /* পাঠ */
+  #rd { display:none; position:relative; }
+  #rd h2.tt { font-size:1.18rem; margin:22px 0 6px; color:var(--gold); }
+  .sec { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:16px; margin:12px 0; }
+  .st { font-weight:800; font-size:1.02rem; margin-bottom:10px; display:flex; gap:10px; align-items:flex-start; }
+  .sn { flex:none; min-width:28px; height:28px; border-radius:9px; background:var(--gold); color:#1a1205; display:grid; place-items:center; font-size:.82rem; font-weight:800; }
+  .sc p, .sc li { font-size:var(--fs); line-height:var(--lh); margin:6px 0; } .sc ul, .sc ol { padding-left:22px; }
+  .sc h3 { font-size:1.04rem; margin:14px 0 4px; color:var(--brand); }
+  .ar, .arb { font-family:'Amiri','Noto Naskh Arabic','Scheherazade New','Traditional Arabic',serif; direction:rtl; unicode-bidi:isolate; font-feature-settings:'liga','calt','mark','mkmk','ccmp'; }
+  .arb { display:block; font-size:clamp(1.5rem,1.2rem + 1.2vw,2rem); line-height:2.25; text-align:right; margin:8px 0; padding:10px 12px; border-radius:12px; background:color-mix(in srgb,var(--gold) 9%,transparent); }
+  .ar { font-size:1.28em; line-height:1; vertical-align:-.06em; }
+  .tw { overflow-x:auto; margin:10px 0; } table { border-collapse:collapse; width:100%; min-width:320px; font-size:.95rem; }
+  th, td { border:1px solid var(--line); padding:8px 10px; text-align:left; line-height:1.6; vertical-align:top; } th { background:color-mix(in srgb,var(--brand) 14%,transparent); }
+  .bx { border-radius:14px; padding:12px 14px; margin:10px 0; line-height:1.8; font-size:var(--fs); border:1px solid var(--line); border-left-width:4px; }
+  .bx.hack { border-left-color:#f59e0b; background:color-mix(in srgb,#f59e0b 10%,transparent); } .bx.story { border-left-color:#a855f7; background:color-mix(in srgb,#a855f7 10%,transparent); }
+  .bx.concept { border-left-color:#06b6d4; background:color-mix(in srgb,#06b6d4 10%,transparent); } .bx.hukum { border-left-color:#10b981; background:color-mix(in srgb,#10b981 10%,transparent); }
+  .exs { padding:8px 12px; margin:8px 0; border-radius:10px; background:var(--bg); border:1px dashed var(--line); line-height:1.8; }
+  .pills { display:flex; flex-wrap:wrap; gap:6px; margin:8px 0; } .pl { padding:5px 11px; border-radius:99px; border:1px solid var(--line); background:var(--bg); font-size:.9rem; }
+  .tree { margin:10px 0; padding:10px; border-radius:14px; background:var(--bg); border:1px solid var(--line); } .tn { font-weight:800; } .badge { margin-left:8px; font-size:.72rem; padding:2px 8px; border-radius:99px; background:var(--gold); color:#1a1205; }
+  .acc { border:1px solid var(--line); border-radius:14px; margin:8px 0; overflow:hidden; } .ah { width:100%; text-align:left; padding:12px 14px; background:var(--bg); color:var(--ink); border:0; font-weight:700; display:flex; justify-content:space-between; }
+  .ac { display:none; padding:4px 14px 10px; } .acc.open .ac { display:block; } .acc.open .ah span { transform:rotate(180deg); } .ah span { transition:transform .2s; }
+  .vid { padding:12px; border-radius:12px; border:1px dashed var(--line); color:var(--mut); font-size:.88rem; margin:8px 0; }
+  .wm { position:fixed; inset:0; z-index:5; pointer-events:none; overflow:hidden; opacity:.07; }
+  .wm div { position:absolute; left:-20%; right:-20%; white-space:nowrap; font-weight:800; font-size:15px; letter-spacing:.06em; transform:rotate(-24deg); }
+  .toast { position:fixed; left:50%; bottom:calc(20px + env(safe-area-inset-bottom)); transform:translateX(-50%); z-index:30; padding:12px 18px; border-radius:14px; background:var(--card); border:1px solid var(--gold); font-weight:700; max-width:90vw; text-align:center; box-shadow:0 12px 30px -8px rgba(0,0,0,.5); }
+  .prot { -webkit-user-select:none; user-select:none; -webkit-touch-callout:none; }
+  @media print { body { display:none !important; } }
+</style>
+</head>
+<body>
+<div class="top"><button class="ib" id="back" style="display:none" aria-label="ফিরুন">←</button><h1 id="ttl">📴 অফলাইন পাঠ</h1><span class="pill" id="left"></span><button class="ib" id="fm" aria-label="ছোট">A−</button><button class="ib" id="fp" aria-label="বড়">A+</button><button class="ib" id="th" aria-label="থিম">🌓</button></div>
+<main id="main"></main>
+<div class="wm" id="wm" aria-hidden="true"></div>
+<script src="gzoff.js"></script>
+<script>
+(function() {
+  var $ = function(i) { return document.getElementById(i); }, M = $('main'), O = window.GZOFF, ST = null, TRIES = 0;
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function bn(n) { return String(n).replace(/\d/g, function(d) { return '০১২৩৪৫৬৭৮৯'[d]; }); }
+  function fmt(s) { var t = esc(s); t = t.replace(/__AR__([\s\S]+?)__AR__/g, '<span class="ar">$1</span>'); t = t.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>'); return t; }
+  function toast(m) { var d = document.createElement('div'); d.className = 'toast'; d.textContent = m; document.body.appendChild(d); setTimeout(function() { d.remove(); }, 3200); }
+  /* থিম ও ফন্ট */
+  try { document.documentElement.setAttribute('data-t', localStorage.getItem('gzo_t') || 'dark'); var fs = Number(localStorage.getItem('gzo_fs')) || 1.06; document.documentElement.style.setProperty('--fs', fs + 'rem'); } catch (e) {}
+  $('th').onclick = function() { var d = document.documentElement, t = d.getAttribute('data-t') === 'light' ? 'dark' : 'light'; d.setAttribute('data-t', t); $('tc').setAttribute('content', t === 'light' ? '#f5f7fb' : '#0b1224'); try { localStorage.setItem('gzo_t', t); } catch (e) {} };
+  function fsz(d) { var v = Math.max(.9, Math.min(1.7, (Number(getComputedStyle(document.documentElement).getPropertyValue('--fs').replace('rem', '')) || 1.06) + d)); document.documentElement.style.setProperty('--fs', v + 'rem'); try { localStorage.setItem('gzo_fs', v); } catch (e) {} }
+  $('fm').onclick = function() { fsz(-.08); }; $('fp').onclick = function() { fsz(.08); };
+  function online() { return '<button class="btn g" onclick="location.href=\'index.html\'">🌐 অনলাইনে অ্যাপ খুলুন</button>'; }
+  function box(emo, h, p, extra) { M.innerHTML = '<div class="box"><div class="emo">' + emo + '</div><h2>' + h + '</h2><p>' + p + '</p>' + (extra || '') + online() + '</div>'; }
+
+  function watermark() {
+    if (!ST || !ST.who) return; var w = $('wm'), t = esc((ST.who.name || '') + ' · GZT-' + String(ST.who.code).replace(/^GZT-/i, '')), h = '';
+    for (var i = 0; i < 16; i++) h += '<div style="top:' + (i * 9 - 6) + '%">' + new Array(7).join(t + '  ·  ') + '</div>';
+    w.innerHTML = h;
+  }
+  function protect() { if (ST && ST.protect) { document.body.classList.add('prot'); ['contextmenu', 'copy', 'cut', 'dragstart'].forEach(function(ev) { document.addEventListener(ev, function(e) { e.preventDefault(); }); }); } }
+
+  /* ---- প্রবেশ ---- */
+  function gate() {
+    $('back').style.display = 'none'; $('ttl').textContent = '📴 অফলাইন পাঠ'; $('left').textContent = '';
+    M.innerHTML = '<div class="box"><div class="emo">🔐</div><h2>পিন দিন</h2><p>' + esc(ST.who.name || '') + ' — আপনার অ্যাপের পিন দিলেই সেভ করা থিওরি খুলবে। (ইন্টারনেট লাগবে না)</p>' +
+      '<div class="pin" id="pin">' + [0, 1, 2, 3, 4, 5].map(function(i) { return '<input inputmode="numeric" maxlength="1" autocomplete="off" data-i="' + i + '" aria-label="পিনের ঘর ' + (i + 1) + '">'; }).join('') + '</div><div class="err" id="err"></div>' +
+      '<button class="btn" id="go">খুলুন</button>' + online() + '</div>';
+    var ins = [].slice.call(document.querySelectorAll('#pin input'));
+    ins.forEach(function(el, i) {
+      el.addEventListener('input', function() { el.value = el.value.replace(/\D/g, '').slice(0, 1); if (el.value && ins[i + 1]) ins[i + 1].focus(); });
+      el.addEventListener('keydown', function(e) { if (e.key === 'Backspace' && !el.value && ins[i - 1]) ins[i - 1].focus(); if (e.key === 'Enter') $('go').click(); });
+    });
+    ins[0].focus();
+    $('go').onclick = function() {
+      var pin = ins.map(function(x) { return x.value; }).join('');
+      if (pin.length < 4) { $('err').textContent = 'পিন কমপক্ষে ৪ সংখ্যার'; return; }
+      if (TRIES >= 5) { $('err').textContent = 'অনেকবার ভুল — অনলাইনে অ্যাপ খুলে আবার চেষ্টা করুন'; return; }
+      O.checkPin(pin).then(function(ok) {
+        if (ok) { TRIES = 0; sessionStorage.setItem('gzo_in', '1'); list(); }
+        else { TRIES++; $('err').textContent = 'ভুল পিন' + (TRIES >= 3 ? ' (আর ' + bn(5 - TRIES) + ' বার)' : ''); ins.forEach(function(x) { x.value = ''; }); ins[0].focus(); }
+      });
+    };
+  }
+  /* ---- তালিকা ---- */
+  function list() {
+    $('back').style.display = 'none'; $('rd') && $('rd').remove(); $('ttl').textContent = '📴 সেভ করা থিওরি'; $('left').textContent = 'আর ' + bn(ST.leftDays) + ' দিন';
+    O.list().then(function(a) {
+      var h = '<p class="sub">ইন্টারনেট ছাড়াই পড়ছেন। নতুন লেকচার সেভ করতে বা MCQ/এক্সামের জন্য অনলাইনে অ্যাপ খুলুন। <b>অনলাইনে অ্যাপ খুললেই মেয়াদ নতুন করে শুরু হয়।</b></p>';
+      h += a.map(function(x) { return '<button class="lec" data-id="' + esc(x.id) + '"><div><b>' + esc(x.title) + '</b><small>' + esc(x.subject || '') + ' · সেভ ' + esc(new Date(x.savedAt).toLocaleDateString('bn-BD')) + '</small></div><span class="go">›</span></button>'; }).join('');
+      h += online() + '<button class="btn g" id="lo" style="margin-top:8px">🚪 এই ডিভাইস থেকে সব সেভ মুছুন</button>';
+      M.innerHTML = h;
+      [].forEach.call(M.querySelectorAll('.lec'), function(b) { b.onclick = function() { read(b.getAttribute('data-id')); }; });
+      $('lo').onclick = function() { if (confirm('এই ডিভাইসের সব অফলাইন-সেভ ও পিন মুছে যাবে। নিশ্চিত?')) O.purge(false).then(function() { sessionStorage.removeItem('gzo_in'); box('✅', 'মুছে ফেলা হয়েছে', 'অনলাইনে লগইন করে আবার সেভ করতে পারবেন।'); }); };
+    });
+  }
+  /* ---- পাঠ ---- */
+  function block(b) {
+    if (!b) return '';
+    switch (b.k) {
+      case 'p': return '<p>' + fmt(b.text) + '</p>';
+      case 'h3': return '<h3>' + fmt(b.text) + '</h3>';
+      case 'list': var tg = b.ordered ? 'ol' : 'ul'; return '<' + tg + '>' + (b.items || []).map(function(i) { return '<li>' + fmt(i) + '</li>'; }).join('') + '</' + tg + '>';
+      case 'table': if (!b.rows || !b.rows.length) return ''; return '<div class="tw"><table><thead><tr>' + b.rows[0].map(function(c) { return '<th>' + fmt(c) + '</th>'; }).join('') + '</tr></thead><tbody>' + b.rows.slice(1).map(function(r) { return '<tr>' + r.map(function(c) { return '<td>' + fmt(c) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
+      case 'hack': return '<div class="bx hack"><b>💡 Memory Hack:</b> ' + fmt(b.text) + '</div>';
+      case 'story': return '<div class="bx story"><b>📖 গল্প:</b> ' + fmt(b.text) + '</div>';
+      case 'concept': return '<div class="bx concept"><b>🧠 কনসেপ্ট:</b> ' + fmt(b.text) + '</div>';
+      case 'hukum': return '<div class="bx hukum"><b>⚖️ হুকুম:</b> ' + fmt(b.text) + '</div>';
+      case 'ex-sent': return '<div class="exs">' + fmt(b.text) + '</div>';
+      case 'ar-block': return '<div class="arb">' + esc(b.text) + '</div>';
+      case 'pills': return '<div class="pills">' + (b.items || []).map(function(i) { return '<span class="pl">' + fmt(i) + '</span>'; }).join('') + '</div>';
+      case 'video': return '<div class="vid">🎬 ভিডিও — অনলাইনে অ্যাপ খুললে দেখা যাবে</div>';
+      case 'tree': var n = b.node || {}; return '<div class="tree"><div class="tn">' + fmt(n.title || '') + (n.badge ? '<span class="badge">' + fmt(n.badge) + '</span>' : '') + '</div>' + ((n.pills || []).length ? '<div class="pills">' + n.pills.map(function(p) { return '<span class="pl">' + fmt(p) + '</span>'; }).join('') + '</div>' : '') + '</div>';
+      case 'acc': return '<div class="acc"><button class="ah" type="button">' + esc(b.title) + '<span>⌄</span></button><div class="ac">' + (b.blocks || []).map(block).join('') + '</div></div>';
+      default: return '';
+    }
+  }
+  function read(id) {
+    O.get(id).then(function(d) {
+      if (!d) { toast('এই লেকচার পাওয়া যায়নি'); return list(); }
+      var tabs = d.tabs || [], n = 0, h = '<div id="rd" style="display:block">';
+      tabs.forEach(function(t) {
+        h += '<h2 class="tt">' + esc(t.title) + '</h2>';
+        (t.sections || []).forEach(function(s) { n++; h += '<div class="sec"><div class="st">' + (s.title ? '<span class="sn">' + bn(n) + '</span><span>' + esc(s.title) + '</span>' : '') + '</div><div class="sc">' + (s.blocks || []).map(block).join('') + '</div></div>'; });
+      });
+      M.innerHTML = h + '</div>' + online();
+      $('back').style.display = ''; $('back').onclick = list; window.scrollTo(0, 0);
+      [].forEach.call(M.querySelectorAll('.ah'), function(b) { b.onclick = function() { b.parentNode.classList.toggle('open'); }; });
+      O.list().then(function(a) { var x = a.filter(function(y) { return y.id === String(id); })[0]; if (x) $('ttl').textContent = x.title; });
+    }).catch(function() { toast('খোলা যায়নি'); list(); });
+  }
+
+  window.addEventListener('online', function() { toast('📶 ইন্টারনেট ফিরেছে — "অনলাইনে অ্যাপ খুলুন" চাপুন'); });
+  if (!O || !O.supported) { box('⚠️', 'এই ব্রাউজারে অফলাইন সুবিধা নেই', 'অনলাইনে অ্যাপ ব্যবহার করুন।'); return; }
+  O.status().then(function(s) {
+    ST = s;
+    if (s.ok) { watermark(); protect(); return sessionStorage.getItem('gzo_in') === '1' ? list() : gate(); }
+    var msg = {
+      empty: ['📭', 'কিছু সেভ করা নেই', 'ইন্টারনেট থাকা অবস্থায় লেকচারে “📥 অফলাইনে সেভ” চাপুন; তারপর ইন্টারনেট ছাড়াও পড়া যাবে।'],
+      nosync: ['🔄', 'একবার অনলাইনে অ্যাপ খুলুন', 'নিরাপত্তার জন্য একবার ইন্টারনেটে লগইন করে অ্যাপ খুললে অফলাইন পাঠ চালু হবে।'],
+      expired: ['⏳', 'অফলাইনের মেয়াদ শেষ', 'ইন্টারনেটে একবার অ্যাপ খুললেই আপনার সেভ করা থিওরি আবার পড়া যাবে (আবার সেভ করতে হবে না)।'],
+      clock: ['🕒', 'ফোনের সময়ে গরমিল', 'ফোনের তারিখ-সময় ঠিক করে ইন্টারনেটে অ্যাপ খুলুন।'],
+      disabled: ['⛔', 'অফলাইন পাঠ এখন বন্ধ', 'অনলাইনে অ্যাপ ব্যবহার করুন।'],
+      error: ['⚠️', 'সমস্যা হয়েছে', 'অনলাইনে অ্যাপ খুলে আবার চেষ্টা করুন।']
+    }[s.reason] || ['⚠️', 'খোলা যাচ্ছে না', 'অনলাইনে অ্যাপ খুলুন।'];
+    box(msg[0], msg[1], msg[2]);
+  });
+})();
+</script>
+</body>
+</html>

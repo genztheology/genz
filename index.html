@@ -9,12 +9,13 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Gen Z Theology">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-src https://script.google.com https://*.googleusercontent.com; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; frame-src https://script.google.com https://*.googleusercontent.com; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <title>Gen Z Theology</title>
 <link rel="preconnect" href="https://script.google.com">
 <link rel="preconnect" href="https://script.googleusercontent.com">
 <link rel="preconnect" href="https://www.gstatic.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Noto+Serif+Bengali:wght@500;700&family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Plus+Jakarta+Sans:wght@500;700&display=swap" media="print" onload="this.media='all'">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -35,9 +36,9 @@
   .bar i { display: block; height: 100%; width: 40%; border-radius: inherit; background: linear-gradient(90deg, #fbbf24, #fde68a); animation: slide 1.2s ease-in-out infinite; }
   #hint { min-height: 22px; font-size: 13px; opacity: 0; transition: opacity .4s; }
   #hint.on { opacity: .85; }
-  #retry { display: none; border: 0; border-radius: 12px; padding: 11px 22px; font: 700 14.5px inherit; background: #fbbf24; color: #1a1205; cursor: pointer; box-shadow: 0 8px 20px -6px rgba(251,191,36,.6); }
+  #retry { display: none; border: 0; border-radius: 12px; padding: 11px 22px; font-family: 'Noto Sans Bengali','Hind Siliguri',system-ui,sans-serif; font-weight: 700; font-size: 14.5px; background: #fbbf24; color: #1a1205; cursor: pointer; box-shadow: 0 8px 20px -6px rgba(251,191,36,.6); }
   #off { display: none; position: fixed; inset: 0; z-index: 3; align-items: center; justify-content: center; flex-direction: column; gap: 12px; background: var(--bg); color: var(--fg); font: 600 16px 'Noto Sans Bengali', system-ui, sans-serif; text-align: center; padding: 24px; }
-  #off button { border: 0; border-radius: 12px; padding: 12px 20px; font: 700 15px inherit; background: #fbbf24; color: #1a1205; }
+  #off button { border: 0; border-radius: 12px; padding: 12px 20px; font-family: 'Noto Sans Bengali','Hind Siliguri',system-ui,sans-serif; font-weight: 700; font-size: 15px; background: #fbbf24; color: #1a1205; }
   @keyframes slide { 0% { transform: translateX(-110%); } 100% { transform: translateX(260%); } }
   @keyframes pop { from { transform: scale(.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   @media (prefers-reduced-motion: reduce) { .bar i, #splash img { animation: none; } }
@@ -47,10 +48,11 @@
   try { var t = JSON.parse(localStorage.getItem('gzw_theme') || 'null'); if (t && /^#[0-9a-f]{3,8}$/i.test(t.bg)) { var r = document.documentElement.style; r.setProperty('--bg', t.bg); if (/^#[0-9a-f]{3,8}$/i.test(t.bg2 || '')) r.setProperty('--bg2', t.bg2); if (/^#[0-9a-f]{3,8}$/i.test(t.fg || '')) r.setProperty('--fg', t.fg); document.getElementById('tc') && document.getElementById('tc').setAttribute('content', t.bg); } } catch (e) {}
 </script>
 <script src="config.js"></script>
+<script src="gzoff.js"></script>
 </head>
 <body>
 <div id="splash"><img src="icon-192.png" alt=""><h1>Gen Z Theology</h1><p>চবি বি২ ও ইবি ধর্মতত্ত্ব প্রস্তুতি</p><div class="bar"><i></i></div><div id="hint"></div><button id="retry" type="button">আবার চেষ্টা করুন</button></div>
-<div id="off"><div style="font-size:42px">📶</div><div>ইন্টারনেট সংযোগ নেই</div><button type="button" onclick="location.reload()">আবার চেষ্টা করুন</button></div>
+<div id="off"><div style="font-size:42px">📶</div><div>ইন্টারনেট সংযোগ নেই</div><button type="button" onclick="location.reload()">আবার চেষ্টা করুন</button><button type="button" id="offgo" style="display:none;background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35)" onclick="location.href='offline.html'">📖 সেভ করা থিওরি পড়ুন</button></div>
 <script>
   (function() {
     /* নিরাপত্তা: অন্য কোনো সাইট এই পেজকে নিজের ভেতরে বসিয়ে (ফ্রেম করে) ধোঁকা দিতে পারবে না */
@@ -59,7 +61,13 @@
     var APP = String(window.GZ_APP_URL || '');
     var $ = function(id) { return document.getElementById(id); };
     if (!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]{20,}\/exec$/.test(APP)) { $('splash').innerHTML = '<div>⚠️ কনফিগারেশনে সমস্যা — অ্যাডমিনকে জানান</div>'; return; }
-    if (!navigator.onLine) { $('off').style.display = 'flex'; }
+    /* v5 — ইন্টারনেট না থাকলেও অ্যাপ খোলে: সেভ করা থিওরি থাকলে সরাসরি অফলাইন-রিডার */
+    var OFFHAS = false;
+    function offlineGo() { location.replace('offline.html'); }
+    if (!navigator.onLine) {
+      $('off').style.display = 'flex';
+      if (window.GZOFF && GZOFF.supported) GZOFF.list().then(function(a) { if (a.length) { OFFHAS = true; offlineGo(); } }).catch(function() {});
+    }
     var ref = (location.search.match(/[?&]ref=([A-Za-z0-9]{4,12})/) || [])[1];   /* রেফার লিংক পোর্টালে পৌঁছে দেয় */
     var f = document.createElement('iframe'), shown = false, t0 = Date.now();
     f.src = APP + (ref ? '?ref=' + ref : '');
@@ -71,14 +79,38 @@
       f.classList.add('on'); $('splash').classList.add('hide');
     }
     /* পোর্টাল নিজে "তৈরি" জানালে তবেই পর্দা সরে (Google-এর বাইরের পেজ লোড হলেই নয়) */
+    var PORTAL_OK = /^https:\/\/([a-z0-9-]+\.)*(googleusercontent\.com|script\.google\.com)$/;
+    /* পোর্টাল (Google-এর ভেতরের ফ্রেম) "hiq" পাঠায়; আমরা সরাসরি ওই ফ্রেমকেই e.source দিয়ে উত্তর দিই */
+    function hello(e) {
+      var send = function(ids, who) { try { e.source.postMessage({ gz: 'hello', have: ids, auth: who ? who.code : '' }, e.origin); } catch (x) {} };
+      if (!(window.GZOFF && GZOFF.supported)) return send([], null);
+      Promise.all([GZOFF.ids(), GZOFF.who()]).then(function(r) { send(r[0], r[1]); }).catch(function() { send([], null); });
+    }
+    function swKill() {
+      try { navigator.serviceWorker.getRegistrations().then(function(rs) { rs.forEach(function(r) { r.unregister(); }); }); } catch (x) {}
+      try { caches.keys().then(function(ks) { return Promise.all(ks.map(function(k) { return caches.delete(k); })); }).then(function() { location.reload(); }); } catch (x) { location.reload(); }
+    }
+    /* পোর্টাল নিজে "তৈরি" জানালে তবেই পর্দা সরে (Google-এর বাইরের পেজ লোড হলেই নয়) */
     window.addEventListener('message', function(e) {
-      if (!/^https:\/\/([a-z0-9-]+\.)*(googleusercontent\.com|script\.google\.com)$/.test(e.origin)) return;
+      if (!PORTAL_OK.test(e.origin)) return;
       var d = e.data; if (!d || typeof d !== 'object') return;
       if (d.gz === 'ready') show();
+      if (d.gz === 'hiq') hello(e);
       if (d.gz === 'reload') { location.reload(); return; }        /* v4.0.1: পোর্টালের "রিফ্রেশ" — পুরো অ্যাপ নতুন করে, সাদা স্ক্রিন ছাড়া */
       if (d.gz === 'theme' && /^#[0-9a-f]{3,8}$/i.test(d.bg || '')) {
         try { localStorage.setItem('gzw_theme', JSON.stringify({ bg: d.bg, bg2: d.bg2 || '', fg: d.fg || '' })); } catch (x) {}
         document.documentElement.style.setProperty('--bg', d.bg); $('tc').setAttribute('content', d.bg);
+      }
+      if (d.gz === 'badge') { try { var n = Math.max(0, Math.min(99, Number(d.n) || 0)); if (n && navigator.setAppBadge) navigator.setAppBadge(n); else if (navigator.clearAppBadge) navigator.clearAppBadge(); } catch (x) {} }
+      if (d.gz === 'swkill') swKill();
+      /* v5 — অফলাইন সেভ: পোর্টাল থেকে আসা বার্তা (এনক্রিপ্ট করে মোড়কের নিজস্ব স্টোরেজে) */
+      if (d.gz === 'off' && window.GZOFF && GZOFF.supported) {
+        var op = d.op, done = function() {}, bad = function() {};
+        if (op === 'auth' && d.code && d.pin) GZOFF.setAuth(String(d.code).slice(0, 40), String(d.name || '').slice(0, 80), String(d.pin).slice(0, 12)).catch(bad);
+        else if (op === 'sync') GZOFF.sync({ ver: String(d.ver || '1').slice(0, 12), days: Number(d.days) || 14, protect: d.protect !== false, enabled: d.enabled !== false }).then(function(r) { if (r && r.purged) { hello(e); } }).catch(bad);
+        else if (op === 'save' && d.id && d.data && typeof d.data === 'object') GZOFF.saveLecture({ id: String(d.id).slice(0, 60), title: String(d.title || '').slice(0, 200), subject: String(d.subject || '').slice(0, 100), data: d.data }).catch(bad);
+        else if (op === 'del' && d.id) GZOFF.del(String(d.id)).catch(bad);
+        else if (op === 'purge') GZOFF.purge(false).catch(bad);
       }
     });
     document.body.appendChild(f);
@@ -87,7 +119,10 @@
     setTimeout(show, 40000);                                         /* পুরনো পোর্টাল সংকেত না দিলেও শেষে দেখায় */
     $('retry').onclick = function() { location.reload(); };
     window.addEventListener('online', function() { $('off').style.display = 'none'; if (!shown) location.reload(); });
-    window.addEventListener('offline', function() { if (!shown) $('off').style.display = 'flex'; });
+    window.addEventListener('offline', function() {
+      if (!shown) $('off').style.display = 'flex';
+      if (window.GZOFF && GZOFF.supported) GZOFF.list().then(function(a) { if (a.length) { $('offgo').style.display = 'inline-block'; if (!shown) offlineGo(); } }).catch(function() {});
+    });
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function() {});
   })();
 </script>
