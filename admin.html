@@ -74,6 +74,7 @@
       if (!/^https:\/\/([a-z0-9-]+\.)*(googleusercontent\.com|script\.google\.com)$/.test(e.origin)) return;
       var d = e.data; if (!d || typeof d !== 'object') return;
       if (d.gz === 'ready') show();
+      if (d.gz === 'reload') { location.reload(); return; }        /* v4.0.1: পোর্টালের "রিফ্রেশ" — পুরো অ্যাপ নতুন করে, সাদা স্ক্রিন ছাড়া */
       if (d.gz === 'theme' && /^#[0-9a-f]{3,8}$/i.test(d.bg || '')) {
         try { localStorage.setItem('gzw_theme_admin', JSON.stringify({ bg: d.bg, bg2: d.bg2 || '', fg: d.fg || '' })); } catch (x) {}
         document.documentElement.style.setProperty('--bg', d.bg); $('tc').setAttribute('content', d.bg);
