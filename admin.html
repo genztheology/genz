@@ -3,47 +3,89 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0f172a">
+<meta name="theme-color" content="#0b1224" id="tc">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="GZT Admin">
+<meta name="apple-mobile-web-app-title" content="অ্যাডমিন প্যানেল">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-src https://script.google.com https://*.googleusercontent.com; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
-<title>GZT Admin</title>
+<title>অ্যাডমিন প্যানেল</title>
+<link rel="preconnect" href="https://script.google.com">
+<link rel="preconnect" href="https://script.googleusercontent.com">
+<link rel="preconnect" href="https://www.gstatic.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="manifest" href="admin.webmanifest">
 <link rel="icon" href="admin-192.png">
 <link rel="apple-touch-icon" href="admin-192.png">
 <style>
-  html,body{margin:0;height:100%;background:#0f172a;overflow:hidden}
-  iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:#fff}
-  #splash{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#fff;font:600 16px 'Hind Siliguri',system-ui,sans-serif;background:linear-gradient(135deg,#0b1224,#1d4ed8);transition:opacity .4s}
-  #splash img{width:84px;height:84px;border-radius:22px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
-  #splash.hide{opacity:0;pointer-events:none}
-  #off{display:none;position:fixed;inset:0;align-items:center;justify-content:center;flex-direction:column;gap:12px;background:#0b1224;color:#fff;font:600 16px 'Hind Siliguri',system-ui,sans-serif;text-align:center;padding:24px}
-  #off button{border:0;border-radius:12px;padding:12px 20px;font:700 15px inherit;background:#fbbf24;color:#1a1205}
+  :root { --bg: #0b1224; --bg2: #1d4ed8; --fg: #ffffff; }
+  html, body { margin: 0; height: 100%; background: var(--bg); overflow: hidden; }
+  /* পোর্টাল পুরো তৈরি না হওয়া পর্যন্ত লুকানো — তাই আর সাদা স্ক্রিন দেখা যায় না */
+  iframe { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; background: var(--bg); opacity: 0; transition: opacity .35s ease; }
+  iframe.on { opacity: 1; }
+  #splash { position: fixed; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 24px;
+    color: var(--fg); font: 600 15px/1.5 'Noto Sans Bengali', 'Hind Siliguri', system-ui, sans-serif; text-align: center;
+    background: radial-gradient(120% 80% at 50% 0%, var(--bg2) 0%, var(--bg) 62%); transition: opacity .4s ease, visibility .4s; }
+  #splash.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+  #splash img { width: 88px; height: 88px; border-radius: 24px; box-shadow: 0 14px 40px -8px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.08); animation: pop .6s cubic-bezier(.2,1.4,.4,1) both; }
+  #splash h1 { margin: 6px 0 0; font-size: 21px; font-weight: 800; letter-spacing: .02em; }
+  #splash p { margin: 0; opacity: .72; font-weight: 500; font-size: 13.5px; }
+  .bar { width: min(220px, 60vw); height: 4px; border-radius: 99px; background: rgba(255,255,255,.14); overflow: hidden; margin-top: 10px; }
+  .bar i { display: block; height: 100%; width: 40%; border-radius: inherit; background: linear-gradient(90deg, #fbbf24, #fde68a); animation: slide 1.2s ease-in-out infinite; }
+  #hint { min-height: 22px; font-size: 13px; opacity: 0; transition: opacity .4s; }
+  #hint.on { opacity: .85; }
+  #retry { display: none; border: 0; border-radius: 12px; padding: 11px 22px; font: 700 14.5px inherit; background: #fbbf24; color: #1a1205; cursor: pointer; box-shadow: 0 8px 20px -6px rgba(251,191,36,.6); }
+  #off { display: none; position: fixed; inset: 0; z-index: 3; align-items: center; justify-content: center; flex-direction: column; gap: 12px; background: var(--bg); color: var(--fg); font: 600 16px 'Noto Sans Bengali', system-ui, sans-serif; text-align: center; padding: 24px; }
+  #off button { border: 0; border-radius: 12px; padding: 12px 20px; font: 700 15px inherit; background: #fbbf24; color: #1a1205; }
+  @keyframes slide { 0% { transform: translateX(-110%); } 100% { transform: translateX(260%); } }
+  @keyframes pop { from { transform: scale(.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .bar i, #splash img { animation: none; } }
 </style>
+<script>
+  /* শেষবার যে থিম ছিল সেই রঙে লোডিং-পর্দা — চোখে ধাক্কা লাগে না */
+  try { var t = JSON.parse(localStorage.getItem('gzw_theme_admin') || 'null'); if (t && /^#[0-9a-f]{3,8}$/i.test(t.bg)) { var r = document.documentElement.style; r.setProperty('--bg', t.bg); if (/^#[0-9a-f]{3,8}$/i.test(t.bg2 || '')) r.setProperty('--bg2', t.bg2); if (/^#[0-9a-f]{3,8}$/i.test(t.fg || '')) r.setProperty('--fg', t.fg); document.getElementById('tc') && document.getElementById('tc').setAttribute('content', t.bg); } } catch (e) {}
+</script>
 <script src="config.js"></script>
 </head>
 <body>
-<div id="splash"><img src="admin-192.png" alt=""><div>লোড হচ্ছে…</div></div>
-<div id="off"><div style="font-size:42px">📶</div><div>ইন্টারনেট সংযোগ নেই</div><button onclick="location.reload()">আবার চেষ্টা করুন</button></div>
+<div id="splash"><img src="admin-192.png" alt=""><h1>Gen Z Theology</h1><p>অ্যাডমিন প্যানেল</p><div class="bar"><i></i></div><div id="hint"></div><button id="retry" type="button">আবার চেষ্টা করুন</button></div>
+<div id="off"><div style="font-size:42px">📶</div><div>ইন্টারনেট সংযোগ নেই</div><button type="button" onclick="location.reload()">আবার চেষ্টা করুন</button></div>
 <script>
   (function() {
     /* নিরাপত্তা: অন্য কোনো সাইট এই পেজকে নিজের ভেতরে বসিয়ে (ফ্রেম করে) ধোঁকা দিতে পারবে না */
     if (window.top !== window.self) { try { window.top.location = window.location.href; } catch (e) {} document.documentElement.innerHTML = ''; return; }
     /* config.js-এ শুধু আসল Apps Script লিংক চলবে — অন্য কোনো সাইটের লিংক বসালে পেজ খুলবেই না */
     var APP = String(window.GZ_APP_URL || '');
-    if (!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]{20,}\/exec$/.test(APP)) { document.getElementById('splash').innerHTML = '<div>⚠️ কনফিগারেশনে সমস্যা — অ্যাডমিনকে জানান</div>'; return; }
-    if (!navigator.onLine) { document.getElementById('off').style.display = 'flex'; document.getElementById('splash').classList.add('hide'); }
-    var f = document.createElement('iframe');
+    var $ = function(id) { return document.getElementById(id); };
+    if (!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]{20,}\/exec$/.test(APP)) { $('splash').innerHTML = '<div>⚠️ কনফিগারেশনে সমস্যা — অ্যাডমিনকে জানান</div>'; return; }
+    if (!navigator.onLine) { $('off').style.display = 'flex'; }
+    var f = document.createElement('iframe'), shown = false, t0 = Date.now();
     f.src = APP + '?admin=1';
+    f.title = 'অ্যাডমিন প্যানেল';
     f.allow = 'clipboard-write; fullscreen; encrypted-media; picture-in-picture';
     f.setAttribute('allowfullscreen', ''); f.referrerPolicy = 'no-referrer';
-    f.onload = function() { document.getElementById('splash').classList.add('hide'); };
+    function show() {
+      if (shown) return; shown = true;
+      f.classList.add('on'); $('splash').classList.add('hide');
+    }
+    /* পোর্টাল নিজে "তৈরি" জানালে তবেই পর্দা সরে (Google-এর বাইরের পেজ লোড হলেই নয়) */
+    window.addEventListener('message', function(e) {
+      if (!/^https:\/\/([a-z0-9-]+\.)*(googleusercontent\.com|script\.google\.com)$/.test(e.origin)) return;
+      var d = e.data; if (!d || typeof d !== 'object') return;
+      if (d.gz === 'ready') show();
+      if (d.gz === 'theme' && /^#[0-9a-f]{3,8}$/i.test(d.bg || '')) {
+        try { localStorage.setItem('gzw_theme_admin', JSON.stringify({ bg: d.bg, bg2: d.bg2 || '', fg: d.fg || '' })); } catch (x) {}
+        document.documentElement.style.setProperty('--bg', d.bg); $('tc').setAttribute('content', d.bg);
+      }
+    });
     document.body.appendChild(f);
-    setTimeout(function() { document.getElementById('splash').classList.add('hide'); }, 12000);
-    window.addEventListener('online', function() { document.getElementById('off').style.display = 'none'; });
+    setTimeout(function() { if (!shown) { $('hint').textContent = 'ইন্টারনেট একটু ধীর — আরেকটু অপেক্ষা করুন…'; $('hint').classList.add('on'); } }, 6000);
+    setTimeout(function() { if (!shown) { $('hint').textContent = 'অনেক সময় লাগছে।'; $('retry').style.display = 'inline-block'; } }, 22000);
+    setTimeout(show, 40000);                                         /* পুরনো পোর্টাল সংকেত না দিলেও শেষে দেখায় */
+    $('retry').onclick = function() { location.reload(); };
+    window.addEventListener('online', function() { $('off').style.display = 'none'; if (!shown) location.reload(); });
+    window.addEventListener('offline', function() { if (!shown) $('off').style.display = 'flex'; });
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function() {});
   })();
 </script>
