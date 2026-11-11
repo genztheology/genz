@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#060b17">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-src https://script.google.com https://*.googleusercontent.com; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<title>Gen Z Theology — স্লাইড</title>
+<link rel="preconnect" href="https://script.google.com">
+<link rel="preconnect" href="https://script.googleusercontent.com">
+<link rel="icon" href="icon-192.png">
+<style>
+  html, body { margin: 0; height: 100%; background: #060b17; overflow: hidden; }
+  iframe { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; background: #060b17; opacity: 0; transition: opacity .35s ease; }
+  iframe.on { opacity: 1; }
+  #splash { position: fixed; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 24px;
+    color: #e8e2d1; font: 600 15px/1.5 'Noto Sans Bengali', 'Hind Siliguri', system-ui, sans-serif; text-align: center;
+    background: radial-gradient(120% 80% at 50% 0%, #1a2a4a 0%, #060b17 62%); transition: opacity .4s ease, visibility .4s; }
+  #splash.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+  #splash img { width: 80px; height: 80px; border-radius: 22px; box-shadow: 0 14px 40px -8px rgba(0,0,0,.5); }
+  #splash h1 { margin: 6px 0 0; font-size: 20px; font-weight: 800; color: #e2b865; }
+  #splash p { margin: 0; opacity: .72; font-weight: 500; font-size: 13.5px; }
+  .bar { width: min(220px, 60vw); height: 4px; border-radius: 99px; background: rgba(255,255,255,.14); overflow: hidden; margin-top: 10px; }
+  .bar i { display: block; height: 100%; width: 40%; border-radius: inherit; background: linear-gradient(90deg, #e2b865, #fbe3a1); animation: slide 1.2s ease-in-out infinite; }
+  @keyframes slide { 0% { transform: translateX(-110%); } 100% { transform: translateX(260%); } }
+  @media (prefers-reduced-motion: reduce) { .bar i { animation: none; } }
+</style>
+<script src="config.js"></script>
+</head>
+<body>
+<div id="splash"><img src="icon-192.png" alt=""><h1>Gen Z Theology</h1><p id="msg">স্লাইড লোড হচ্ছে…</p><div class="bar" id="bar"><i></i></div></div>
+<script>
+  (function() {
+    /* স্লাইডের পাবলিক লিংক: slide.html?s=কোড  ·  প্যানেলের প্রিভিউ: slide.html?p=… — আসল স্লাইড Apps Script থেকে আসে */
+    if (window.top !== window.self) { try { window.top.location = window.location.href; } catch (e) {} document.documentElement.innerHTML = ''; return; }
+    var APP = String(window.GZ_APP_URL || ''), $ = function(id) { return document.getElementById(id); };
+    var fail = function(m) { $('msg').textContent = m; $('bar').style.display = 'none'; };
+    if (!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]{20,}\/exec$/.test(APP)) return fail('⚠️ কনফিগারেশনে সমস্যা — অ্যাডমিনকে জানান');
+    var q = new URLSearchParams(location.search), s = q.get('s') || '', p = q.get('p') || '', src = '';
+    if (/^[A-Za-z0-9]{10,40}$/.test(s)) src = APP + '?slide=' + s;
+    else if (/^S[A-Z0-9]{6,20}\.[a-z0-9]{1,12}\.[A-Za-z0-9_-]{10,40}$/.test(p)) src = APP + '?slidepv=' + encodeURIComponent(p);
+    else return fail('লিংকটি ঠিক নেই — যিনি পাঠিয়েছেন তাঁর কাছে আবার চান');
+    if (!navigator.onLine) return fail('📶 ইন্টারনেট সংযোগ নেই — চালু করে আবার খুলুন');
+    var f = document.createElement('iframe');
+    f.src = src; f.title = 'স্লাইড';
+    f.allow = 'fullscreen; clipboard-write'; f.setAttribute('allowfullscreen', ''); f.referrerPolicy = 'no-referrer';
+    var shown = false, show = function() { if (shown) return; shown = true; f.classList.add('on'); $('splash').classList.add('hide'); };
+    f.addEventListener('load', function() { setTimeout(show, 900); });
+    setTimeout(show, 15000);
+    document.body.appendChild(f);
+  })();
+</script>
+</body>
+</html>
