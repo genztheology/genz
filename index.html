@@ -103,6 +103,20 @@
       }
       if (d.gz === 'badge') { try { var n = Math.max(0, Math.min(99, Number(d.n) || 0)); if (n && navigator.setAppBadge) navigator.setAppBadge(n); else if (navigator.clearAppBadge) navigator.clearAppBadge(); } catch (x) {} }
       if (d.gz === 'swkill') swKill();
+      /* v5.3 — পোর্টালের ডিভাইস আইডি ও লগইন টোকেনের কপি (Google-এর ফ্রেমের স্টোরেজ মুছে গেলে ফিরিয়ে দিতে) */
+      if (d.gz === 'kvq') {
+        var kv = { gz: 'kvr' };
+        try { kv.dev = localStorage.getItem('gzw_dev') || ''; kv.tok = localStorage.getItem('gzw_tok') || ''; kv.code = localStorage.getItem('gzw_code') || ''; kv.name = localStorage.getItem('gzw_name') || ''; } catch (x) {}
+        try { e.source.postMessage(kv, e.origin); } catch (x) {}
+      }
+      if (d.gz === 'kv' && d.op === 'set') {
+        try {
+          if (typeof d.dev === 'string' && /^dev_[a-z0-9_]{6,60}$/i.test(d.dev)) localStorage.setItem('gzw_dev', d.dev);
+          if (typeof d.tok === 'string') { if (!d.tok) localStorage.removeItem('gzw_tok'); else if (d.tok.length < 1500 && /^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/.test(d.tok)) localStorage.setItem('gzw_tok', d.tok); }
+          if (typeof d.code === 'string') { if (!d.code) localStorage.removeItem('gzw_code'); else if (/^[A-Z0-9-]{3,24}$/i.test(d.code)) localStorage.setItem('gzw_code', d.code); }
+          if (typeof d.name === 'string') localStorage.setItem('gzw_name', d.name.slice(0, 80));
+        } catch (x) {}
+      }
       /* v5 — অফলাইন সেভ: পোর্টাল থেকে আসা বার্তা (এনক্রিপ্ট করে মোড়কের নিজস্ব স্টোরেজে) */
       if (d.gz === 'off' && window.GZOFF && GZOFF.supported) {
         var op = d.op, done = function() {}, bad = function() {};
@@ -124,6 +138,7 @@
       if (window.GZOFF && GZOFF.supported) GZOFF.list().then(function(a) { if (a.length) { $('offgo').style.display = 'inline-block'; if (!shown) offlineGo(); } }).catch(function() {});
     });
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function() {});
+    try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function() {}); } catch (x) {}   /* v5.3: ফোন যেন এই স্টোরেজ নিজে না মোছে */
   })();
 </script>
 </body>
